@@ -1,0 +1,286 @@
+Project name
+
+KolamKala — AI-Assisted Kolam Analyzer & Generator
+
+High-level summary (one-line)
+
+Build a modern, responsive web application for Kolam art that includes: an attractive Home page, Kolam Analyzer (image processing with OpenCV), Kolam Generator (SVG/PNG), Learning Module (level-wise lessons + embedded videos), History Module, and a Contact / Feedback module. The app should be visually inspired by Kolam — clean, pastel/white background with maroon/gold/pink accents and Kolam pattern backgrounds.
+
+Target stack (preferred — Replit friendly)
+
+Frontend: React (create-react-app or Vite) + Tailwind CSS (for quick, aesthetic UI)
+
+Backend: Python Flask (simple to integrate OpenCV and image processing)
+
+DB / Storage: SQLite for storing history & feedback; store uploaded/generated images in a local media/ folder (or Replit persistent storage)
+
+Image processing: OpenCV (cv2) + NumPy + scikit-image (optional)
+
+SVG generation: Python (svgwrite) or client-side JS (for live preview)
+
+Deployment: Single Replit project with /frontend and /backend. Backend serves API and built frontend static files for production.
+
+UX / Navigation (tabs)
+
+Top navigation (sticky): Home | Kolam Analyzer | Kolam Generator | Learning | History | Contact
+
+Home (Hero + quick actions)
+
+Big, stylish hero with a kolam background (subtle, blurred), headline: “KolamKala — Explore, Analyze, & Create Kolam Art”
+
+Short welcome paragraph + CTA button: Create / Analyze a Kolam
+
+Sections below:
+
+Importance & features (cards)
+
+A “Variety of Kolam” gallery grid (responsive) showing types: Sikku, Neli, Pulli, Geometric, Freehand, Colored Kolam — each card with short tooltip
+
+Quick links to Analyzer, Generator, and Learning
+
+Kolam Analyzer
+
+Upload image (JPG/PNG) or drag-and-drop
+
+Show progress spinner and then a results page with:
+
+Symmetry detection: show symmetry axes and overlay on image (vertical/horizontal/rotational)
+
+Dot-grid detection: show detected dot matrix — report number of rows and columns
+
+Pattern classification: predicted class (Sikku, Neli, Pulli, Geometric, Freehand) with confidence
+
+Color & style extraction: primary colors palette + line thickness estimate, filled/outline style, multi-color vs monochrome
+
+Other metrics: complexity score, connected components, stroke continuity
+
+Downloadable analysis report (PDF or JSON) and annotated image (PNG)
+
+Kolam Generator
+
+UI controls:
+
+Style (Sikku, Neli, Pulli, Geometric, Freehand)
+
+Complexity level (1–5)
+
+Symmetry type (vertical, horizontal, radial n-axes)
+
+Dot-matrix settings: rows × columns, dot spacing
+
+Color palette / stroke width
+
+Output format: SVG or PNG
+
+Preview canvas with live rendering (SVG recommended)
+
+Buttons:
+
+Generate preview
+
+Download image (SVG/PNG)
+
+Download report (JSON) describing parameters
+
+Save to user history
+
+Learning Module (level-wise)
+
+Tabs or accordion: Level 1 (Beginner) | Level 2 (Intermediate) | Level 3 (Advanced)
+
+Each level: list of step-by-step lessons, each lesson contains:
+
+Text steps (numbered)
+
+Animated SVG or step images showing construction
+
+Embedded tutorial videos (YouTube or hosted)
+
+Practice area: user can draw in an interactive canvas or load a generator preset
+
+History of Kolam (detailed)
+
+Intro + images (high-quality)
+
+Sections: Origin, Cultural significance, Evolution timeline (with dates/period), Types of traditional Kolam, Mathematical foundation (short formulas, symmetry groups), Historical timeline (card list)
+
+Include illustrative Kolam images interspersed
+
+Contact / Feedback
+
+Interactive contact form: Name, Email, Subject, Message, optional image upload
+
+Feedback type: Bug / Suggestion / Praise / Other
+
+Show FAQs and a small map/contact details (if needed)
+
+Store messages in DB and show a moderated admin view (optional)
+
+Backend API spec (Flask)
+
+Provide endpoints and behavior so Replit can scaffold automatically.
+
+Base URL: /api
+
+POST /api/analyze
+
+Accept: multipart/form-data file (image)
+
+Process: run OpenCV pipeline to detect dots, symmetry, classify pattern, extract colors, compute metrics
+
+Return: 200 OK JSON: { "symmetry": ["vertical","rotation-4"], "dot_matrix": {"rows": 7, "cols": 7}, "pattern": {"label":"Sikku", "confidence":0.92}, "colors": ["#fff2e6","#b03060"], "complexity": 0.72, "annotated_image_url": "/media/annotated_123.png", "report_url": "/media/report_123.json" }
+
+POST /api/generate
+
+Accept: JSON with parameters { style, complexity, symmetry, rows, cols, colors, stroke_width, format }
+
+Process: generate SVG (preferred), optionally rasterize to PNG; save files and metadata
+
+Return: { "image_url": "/media/generated_123.svg", "format": "svg", "params": {...} }
+
+GET /api/lessons?level=1
+
+Return: JSON list of lessons for level
+
+GET /api/history
+
+Return user or global saved projects
+
+POST /api/contact
+
+Accept: JSON or form with contact data; store in DB; send optional email (configure SMTP via env vars)
+
+GET /api/history/<id>/download
+
+Returns report / image file
+
+Security / Limits
+
+Limit upload size (e.g., 10MB)
+
+Sanitize filenames
+
+Basic rate limiting (simple in-memory) for Replit free usage
+
+Image processing details (OpenCV-based analyzer)
+
+Provide a reproducible pipeline:
+
+Preprocessing:
+
+Convert to grayscale, denoise (GaussianBlur), adaptive thresholding
+
+Edge detection (Canny) and morphological operations to close gaps
+
+Dot-grid detection:
+
+Hough Circle Transform or blob detection to find dots
+
+Use clustering or grid-fitting (Hough lines or Hough grid) to estimate rows / cols
+
+If dot-grid fails, fallback to contour centroid clustering and compute grid via kmeans + projection
+
+Symmetry detection:
+
+Compute image moments and principal axes (PCA) for main orientation
+
+Test vertical/horizontal symmetry by flipping and comparing structural similarity (SSIM)
+
+For rotational symmetry, rotate by 360/n and compare
+
+Pattern classification:
+
+Lightweight classifier:
+
+Option A: rule-based features (dot density, loop continuity, number of junctions) + small ML model (scikit-learn) trained on sample features
+
+Option B: simple CNN (TensorFlow / PyTorch) if you want image-based classification (note: needs dataset)
+
+For Replit build: implement rule-based classifier and add hooks for future ML model
+
+Color & style extraction:
+
+K-means color quantization to get primary palette
+
+Estimate style: stroke-only vs filled regions by checking region fill percentage
+
+Output:
+
+Annotated image with overlays: detected grid, symmetry axis, bounding boxes, labels
+
+JSON report with metrics and downloadable annotated image
+
+Kolam Generator algorithm (approach)
+
+Use an internal dot-grid (rows × cols) as base.
+
+For stylized types:
+
+Sikku: generate continuous loops that weave around dots — implement by tracing polygonal paths that pass between dots, apply smoothing (Bezier curves).
+
+Neli: grid-based floral motifs — create repeating motifs anchored to dot centers.
+
+Pulli (dot-based): connect dots following given offsets to make net-like patterns.
+
+Geometric: parametric shapes (circles, polygons) arranged radially.
+
+Freehand: randomized strokes with smoothing.
+
+Complexity parameter controls path density and number of loops.
+
+Symmetry: generate motif for one sector and rotate/reflect to create radial / reflectional symmetry.
+
+Output as SVG (vector), with option to convert to PNG (use CairoSVG or Pillow to rasterize).
+
+Frontend UI & visual details
+
+Use Tailwind for consistent spacing and color system.
+
+Colors: #ffffff (white), pastel pink #FADBD8, maroon #8B1E3F, gold accent #D8B75A, grey #6B7280.
+
+Fonts: Google Fonts — a clean serif for headings and sans for body (e.g., "Merriweather" + "Inter").
+
+Background: subtle Kolam-pattern SVG tile with low opacity, apply on sections.
+
+Components to scaffold:
+
+Navbar with active tab highlight
+
+Hero section with CTA
+
+Cards for features
+
+Gallery grid with lightbox
+
+Upload panel with preview & progress
+
+Analyzer results card (left: original, right: annotated + metrics)
+
+Generator controls panel (left) + preview canvas (right)
+
+Learning lessons list with progress badges
+
+Footer with credits and links
+
+Accessibility: keyboard navigable, alt text for images, responsive layout
+
+Data & content placeholders (to be filled)
+
+Provide placeholders for lesson content, history text, and sample Kolam images.
+
+Learning Module: each lesson should include: title, objectives, step-by-step instructions, embedded video link (YouTube id), and practice preset for generator.
+
+File / Folder structure (monorepo)
+/ (root)
+  ├─ frontend/        # React app (src, public)
+  ├─ backend/
+  │    ├─ app.py      # Flask app
+  │    ├─ api/
+  │    │   ├─ analyzer.py
+  │    │   ├─ generator.py
+  │    │   └─ lessons.py
+  │    ├─ models/
+  │    ├─ media/
+  │    └─ db.sqlite
+  ├─ README.md
+  └─ .replit / replit.nix (optional - ensure run command)

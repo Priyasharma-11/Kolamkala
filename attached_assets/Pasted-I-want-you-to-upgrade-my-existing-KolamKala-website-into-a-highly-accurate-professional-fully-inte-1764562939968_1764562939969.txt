@@ -1,0 +1,258 @@
+I want you to upgrade my existing KolamKala website into a highly accurate, professional, fully interactive web application. The two MOST important modules are:
+
+Kolam Analyzer (AI + Image Processing + ML)
+
+Kolam Generator (Custom Kolam SVG Engine)
+
+You must rebuild or improve the entire frontend + backend with increased accuracy, better UI/UX, optimized code, and more datasets.
+
+🔥 1. Global Requirements
+
+Modern, elegant UI with South-Indian theme (Kolam-inspired backgrounds, pastel pink, maroon, gold, white).
+
+Fully responsive layout.
+
+Smooth animations and transitions.
+
+Interactive hover effects, scroll effects, professional typography.
+
+Improve performance, loading time, caching, and API responses.
+
+Use clean folder structure: /client (frontend), /server (backend).
+
+Add documentation for all APIs and components.
+
+🔥 2. Kolam Analyzer — Improve Accuracy + Add ML
+
+Rebuild/improve the analyzer with best possible techniques:
+
+Image Processing (OpenCV / Python / Node Bindings)
+
+Dot grid detection:
+
+Detect dots clearly
+
+Count rows, columns
+
+Detect spacing
+
+Symmetry detection:
+
+Vertical symmetry
+
+Horizontal symmetry
+
+Radial symmetry
+
+Pattern type classification:
+
+Sikku Kolam
+
+Neli Kolam
+
+Pulli Kolam
+
+Geometric Kolam
+
+Freehand Kolam
+
+Extract additional features:
+
+Color palette
+
+Line thickness
+
+Curves vs straight lines
+
+Complexity score
+
+Add improved contour detection + smoothing.
+
+Add noise removal and perspective correction.
+
+Machine Learning
+
+Add a small CNN / image classifier model trained on at least 500+ kolam samples.
+
+Support image preprocessing pipeline.
+
+Output accuracy %, confidence score, classification labels.
+
+Analyzer UI
+
+Drag-and-drop uploader
+
+Real-time feedback UI
+
+Before/After comparison view
+
+Visual overlays showing detected grid or symmetry
+
+Downloadable Analyzer Report (PDF/PNG)
+
+🔥 3. Kolam Generator — Improve Output Quality
+
+The Generator should produce higher quality SVG and PNG designs.
+
+Capabilities Required
+
+Choose Kolam style:
+
+Sikku
+
+Neli
+
+Pulli
+
+Geometric
+
+Choose:
+
+Complexity Level
+
+Symmetry Type
+
+Dot Matrix (rows, columns, spacing)
+
+Color Modes
+
+Stroke Width
+
+Pattern variations
+
+Add custom algorithm to generate:
+
+Smooth bezier curves
+
+Dot-based symmetric kolams
+
+Layered geometric kolams
+
+Full mandala-style kolams
+
+Output formats:
+
+SVG (vector)
+
+PNG (high resolution)
+
+Add:
+
+Randomize Pattern button
+
+Download Pattern button
+
+Share Pattern link
+
+Generator AI Upgrade
+
+Add generative pattern logic:
+
+Constraint-based algorithms
+
+Symmetry-based tile expansion
+
+Curve connecting algorithms
+
+Allow the user to save & load patterns.
+
+Add side preview panel with zooming and rotation.
+
+🔥 4. Learning Module Improvements
+
+Level-wise structure:
+
+Level 1: Beginner
+
+Level 2: Intermediate
+
+Level 3: Advanced
+
+Add:
+
+Step-by-step GIF animations
+
+High-quality video tutorials (embedded)
+
+Practice exercises
+
+Quizzes
+
+Downloadable worksheets
+
+🔥 5. History Module
+
+Rebuild with:
+
+Detailed origin of kolam
+
+Evolution timeline with images
+
+Cultural significance
+
+Mathematical foundation
+
+Types of traditional kolams
+
+Interactive image galleries
+
+🔥 6. Contact Module
+
+Beautiful form
+
+Store submissions in database (SQLite/PostgreSQL)
+
+Success/failure alerts
+
+Dark/light theme support
+
+Add FAQ page
+
+🔥 7. Additional Requirements
+Add a Kolam Dataset Library
+
+Include at least 50–150 sample kolam images for training & demonstration.
+
+Categorize them by style.
+
+Improve Code Quality
+
+Add TypeScript
+
+Add API validation
+
+Add error handling
+
+Add logs
+
+Add comments
+
+Deployment
+
+Must run seamlessly in Replit
+
+Provide .replit and run command
+
+Support production mode build
+
+⚡ Final Output Expectations
+
+Deliver a fully improved KolamKala application with:
+
+Highly accurate Analyzer
+
+Smart Generator
+
+Professional UI
+
+Interactive animations
+
+Organized code
+
+Full documentation
+
+All assets included
+
+Works end-to-end in the browser
+
+Make everything extremely polished, beautiful, functional, and production-ready.
